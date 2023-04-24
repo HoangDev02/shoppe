@@ -16,7 +16,7 @@ const categoriesRouter = require('./router/categoriesRouter')
 const porductRouter = require('./router/productRouter')
 const homeRouter = require('./router/homeRouter')
 const cart = require('./router/cartRouter')
-const port = 3000;
+const port = 8080;
 dotenv.config()
 
 app.use(cookieParser())

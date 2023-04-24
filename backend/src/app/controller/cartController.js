@@ -49,7 +49,7 @@ const cartController = {
                 cart.subtotal = cart.products.map(item => item.total).reduce((acc, next) => acc + next);
               }
               cart = await cart.save();
-              return res.status(200).send({ status: true, updatedCart: cart });
+              return res.status(200).json({ status: true, updatedCart: cart });
         }else {
             const carts=  await cartModel.create({
                 userId,
