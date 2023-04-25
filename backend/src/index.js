@@ -7,6 +7,9 @@ const dotenv = require('dotenv');
 const app = express()
 const morgan = require('morgan');
 const handlebars = require('express-handlebars');
+const jwt = require('jsonwebtoken');
+const cors = require("cors");
+
 
 const connect = require("../src/app/connect/connect")
 
@@ -19,7 +22,8 @@ const cart = require('./router/cartRouter')
 const port = 8080;
 dotenv.config()
 
-app.use(cookieParser())
+app.use(cors());
+app.use(cookieParser());
 
 //change text in jason
 app.use(express.json());
@@ -50,8 +54,15 @@ app.engine('hbs',
 app.use('/user', userRouter)
 app.use('/category', categoriesRouter)
 app.use('/product', porductRouter)
-app.use('/', homeRouter)
+// app.use('/', homeRouter)
 app.use('/cart', cart)
+
+// app.get('/cookies', (req, res) => {
+//   const cookieId = req.cookies.refreshToken;
+//   const kq =jwt.verify(cookieId, process.env.JWT_ACCESS_KEY)
+//   var idToken = kq.id
+//   res.send(`Cookie ID: ${idToken}`);
+// });
 
 
 app.listen(port, () => {

@@ -38,7 +38,7 @@ const userController = {
             {
                 id: user.id,
                 isAdmin: user.admin
-            },process.env.JWT_ACCESS_KEY, {expiresIn:"30s"}
+            },process.env.JWT_ACCESS_KEY, {expiresIn:"365d"}
         );
     },
 
@@ -76,13 +76,16 @@ const userController = {
                     res.status(404).send("wrong username or password")
                 }
                 const payload ={username: user.username,id: user._id, isAdmin: user.isAdmin}
-                const token = jwt.sign(payload, process.env.JWT_ACCESS_KEY, { expiresIn: "20s"})
-                refreshTokens.push(token)
-                 res.cookie("refreshToken", token,{
+                const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_KEY, { expiresIn: "360s"})
+                const refreshToken = userController.generateRefreshtoken(user);
+                refreshTokens.push(refreshToken)
+                 res.cookie("refreshToken", refreshToken,{
                      httpOnly: true,
                      secure: false,
                      sameSite: "strict"
-                 }).status(200).send('login success')
+                 })
+                 const { password, ...others } = user._doc;
+                 res.status(200).json({ ...others, accessToken });
                 
             }
         }catch(err) {

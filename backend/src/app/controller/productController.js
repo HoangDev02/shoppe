@@ -42,7 +42,7 @@ const productController = {
     getProducts: async(req,res,next) => {
         try {
             const product =await productModel.find();
-            res.status(200).json(product)
+            res.status(200).json( product)
         }catch(err) {
             next(err)
         }
