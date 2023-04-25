@@ -1,30 +1,36 @@
-import React, {useEffect, useState} from 'react';
-import test from './pages/test'
+import "./App.css";
+import HomePage from "./Components/Home/HomePage";
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Login from "./Components/Login/Login";
+import Register from "./Components/Register/Register";
+import NavBar from "./Components/NavBar/NavBar";
 
 
 function App() {
-  useEffect(() => {
-    fetchItems();
-  }, []);
+  // useEffect(() => {
+  //   fetchItems();
+  // }, []);
 
-  const [items, setItems] = useState([])
-  const fetchItems = async() => {
-    const data = await fetch('/product');
-    const items = await data.json();
-    setItems(items)
-  }
+  // const [items, setItems] = useState([])
+
+  // //API
+  // const fetchItems = async() => {
+  //   const data = await fetch('/product');
+  //   const items = await data.json();
+  //   setItems(items)
+  // }
 
   return (
-      <section>
-      {
-        items.map(item => (
-          <div key={item._id}>
-           {item.name}
-           {item.price}
-          </div>
-        ))
-      }
-      </section>
+    <Router>
+    <NavBar />
+    <div className="App"> 
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={ <Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </div>
+  </Router>
   );
 }
 
