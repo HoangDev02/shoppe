@@ -6,14 +6,14 @@ const jwt = require('jsonwebtoken')
 let refreshTokens = []
 const userController = {
 
-    //get register
-    getRegister : async (req,res,next) => {
-        res.status(200).render('account/register', {layout: false})
-    },
-    //get login
-    getLogin: async (req,res,next) => {
-        res.status(200).render('account/login', {layout: false})
-    },
+    // //get register
+    // getRegister : async (req,res,next) => {
+    //     res.status(200).render('account/register', {layout: false})
+    // },
+    // //get login
+    // getLogin: async (req,res,next) => {
+    //     res.status(200).render('account/login', {layout: false})
+    // },
 
     getUser: async (req,res,next) => {
         try{
@@ -30,6 +30,15 @@ const userController = {
             res.status(200).json(users)
         }catch (err) {
             next(err)
+        }
+    },
+
+    deleteUser: async (req,res,next) => {
+        try {
+            await userModel.findByIdAndDelete(req.params.id)
+            res.status(200).send("delete user success")
+        } catch (error) {
+            next(error)
         }
     },
 
@@ -76,7 +85,7 @@ const userController = {
                     res.status(404).send("wrong username or password")
                 }
                 const payload ={username: user.username,id: user._id, isAdmin: user.isAdmin}
-                const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_KEY, { expiresIn: "360s"})
+                const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_KEY, { expiresIn: "20s"})
                 const refreshToken = userController.generateRefreshtoken(user);
                 refreshTokens.push(refreshToken)
                  res.cookie("refreshToken", refreshToken,{
@@ -106,14 +115,24 @@ const userController = {
             const newAccessToken = userController.generateRefreshtoken(user);
             const newRefreshToken =  userController.generateRefreshtoken(user);
             refreshTokens.push(newRefreshToken)
-            res.cookie("access_token", newRefreshToken,{
+            res.cookie("refreshToken", refreshToken,{
                 httpOnly: true,
                 secure: false,
                 sameSite: "strict"
             })
-            res.status(200).json({newRefreshToken:newAccessToken})
+            res.status(200).json({
+                accessToken: newAccessToken,
+                refreshToken: newRefreshToken,
+            })
         })
-    }
+    },
+     //LOG OUT
+    logOut: async (req, res) => {
+        //Clear cookies when user logs out
+        refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+        res.clearCookie("refreshToken");
+        res.status(200).json("Logged out successfully!");
+    },
 
 
 }
