@@ -13,7 +13,7 @@ const cartController = {
     },
     getCart : async (req,res,next) => {
         try {
-            const cart = await cartModel.findOne({userId: req.params.userId})
+            const cart = await cartModel.find({userId: req.params.userId})
             if(!cart) {
                 res.status(404).send("cart wrong")
             }
@@ -53,7 +53,7 @@ const cartController = {
         }else {
             const carts=  await cartModel.create({
                 userId,
-                products: [{ productId: productId, quantity:quantity, price:price ,total: parseInt(product_Id.price * quantity)}],
+                products: [{ productId: productId, quantity:quantity, name:name,img,price:price ,total: parseInt(product_Id.price * quantity)}],
                 subtotal: parseInt(product_Id.price * quantity)
               });
               return res.status(201).json(carts);
