@@ -1,32 +1,47 @@
 .navbar-container{
     display: flex;
-    padding: 1rem 1.5rem;
-    justify-content: flex-end;
-    background-color: rgb(228, 228, 228);
+    background-color: #ee4d2d;
     align-items: center;
 }
-.navbar-container > *{
-    margin: 0 1.25rem;
-    text-decoration: none;
-    font-weight: 600;
-    color:rgb(0, 99, 230);
+.header{
+    margin-left: 45px;
+    display: flex;
 }
-.navbar-home{
-    color:rgb(163, 162, 162);
+.header .logo {
+    display: flex;
+    color: white;
+    margin-top: 10px;
+
+}
+.header .logo img {
+    margin-top: 5px;
+    justify-content: flex-start;
+    height: 50px;
+}
+
+.search {
+    margin-left: 20rem;
+}
+.search form {
+    justify-content: end;
+    text-align: center;
+    width: 30rem;
+}
+.navbar-right {
+    display: flex;
+    margin-left: 20rem;
+    padding: 20px;
 }
 .navbar-login {
-    color:rgb(163, 162, 162);
+    padding: 5px;
 }
 .navbar-register{
-    color:rgb(255, 255, 255);
-    background-color: rgb(150, 150, 150);
-    padding:0.35rem;
-    border-radius: 6px;
+    padding: 5px;
 }
 .navbar-user{
-    color: rgb(0, 154, 165);
+    color: white;
 }
 .navbar-logout {
-    color:rgb(156, 156, 156);
-    padding:0.35rem;
+    padding: 15px;
+    color:white;
 }
