@@ -13,7 +13,7 @@ const cartController = {
     },
     getCart : async (req,res,next) => {
         try {
-            const cart = await cartModel.find({userId: req.params.userId})
+            const cart = await cartModel.findOne({userId: req.params.userId})
             if(!cart) {
                 res.status(404).send("cart wrong")
             }
@@ -49,7 +49,7 @@ const cartController = {
                 cart.subtotal = cart.products.map(item => item.total).reduce((acc, next) => acc + next);
               }
               cart = await cart.save();
-              return res.status(200).json({ status: true, updatedCart: cart });
+              return res.status(200).json(cart);
         }else {
             const carts=  await cartModel.create({
                 userId,
@@ -70,7 +70,7 @@ const cartController = {
         if(itemIndex >= -1) {
             cart.products.splice(itemIndex, 1);
             cart = await cart.save()
-            return res.status(200).send("delete cart")
+            return res.status(200).json(cart)
         }
         res.status(400).send("Item does not exist in cart")
     }
