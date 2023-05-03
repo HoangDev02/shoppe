@@ -35,7 +35,7 @@ function App() {
         {/* User */}
         <Route path="/" element={<Home/>}></Route>
         <Route path="/product/:id" element= {<ProductUser/>}></Route>
-        <Route path="/cart/:userId" element= {<CartUser/>}></Route>
+        <Route path="/cart/:userId?" element= {<CartUser/>}></Route>
         {/* Compoment */}
         <Route path="/login" element={ <Login />} />
         <Route path="/register" element={<Register />} />

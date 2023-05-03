@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {getCartFailed,getCartsStart,getCartsSuccess} from '../cartSlide'
+import {addCartFailed, addCartSuccess, getCartFailed,getCartsStart,getCartsSuccess, addCartStart, deleteCartStart, deleteCartSuccess, deleteCartFails} from '../cartSlide'
 
 
 export const getCart = async(accessToken, dispatch,userId) => {
@@ -27,3 +27,43 @@ export const getCarts = async(accessToken, dispatch) => {
          dispatch(getCartFailed())
      }
  }
+//  export const addCart = async(accessToken,dispatch,userId,ProductId,quantity,getState) => {
+//     dispatch(addCartStart());
+//     try {
+//         const res = await axios.post(`/cart/${userId}`, {
+//             headers: {token: `${accessToken}`}
+//         })
+//         dispatch(addCartSuccess({
+//            payload: {
+//              ProductId,
+//             name: res.name,
+//             img: res.img,
+//             price: res.price,
+//             quantity
+//            }
+//         }))
+//         localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems.cart))
+//     } catch (error) {
+//         dispatch(addCartFailed(error))
+//     }
+//  }
+
+export const addCart = async(product, dispatch, navigate, userId) => {
+    dispatch(addCartStart());
+    try {
+        const res = await axios.post(`/cart/${userId}`, product)
+        dispatch(addCartSuccess(res.data))
+        navigate(`/cart/${userId}`)
+    }catch(err) {
+        dispatch(addCartFailed(err))
+    }
+}
+export const deleteCart = async(product,dispatch,userId) => {
+    dispatch(deleteCartStart())
+    try {
+        const res = await axios.delete(`/cart/${userId}`,product)
+        dispatch(deleteCartSuccess(res.data))
+    } catch (error) {
+        dispatch(deleteCartFails(error.response.data))
+    }
+}

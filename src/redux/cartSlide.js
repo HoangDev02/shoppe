@@ -1,26 +1,52 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice  } from "@reduxjs/toolkit";
 
-const cartSlide = createSlice(
+const cartSlide = createSlice (
     {
         name:"carts",
         initialState: {
-            cart: {
-                allCart: null,
+            cartItems: {
+                cart: null,
                 isFetching: false,
                 error: false
-            }
+            },
+            msg:"",
         },
         reducers: {
             getCartsStart: (state) => {
-                state.cart.isFetching = true;
+                state.cartItems.isFetching = true;
             },
             getCartsSuccess: (state, action) => {
-                state.cart.isFetching = false;
-                state.cart.allCart = action.payload;
+                state.cartItems.isFetching = false;
+                state.cartItems.cart = action.payload;
+                state.cartItems.error = false;
             },
             getCartFailed: (state) => {
-                state.cart.isFetching = false;
-                state.cart.error = true;
+                state.cartItems.isFetching = false;
+                state.cartItems.error = true;
+            },
+            addCartStart: (state) => {
+                state.cartItems.isFetching = true
+            },
+            addCartSuccess: (state,action) => {
+                state.cartItems.isFetching = false;
+                state.cartItems.error = false;
+                state.cartItems.cart = action.payload
+            },
+            addCartFailed: (state) =>{
+                state.cartItems.isFetching = false;
+                state.cartItems.error = false
+            },
+            deleteCartStart: (state) => {
+                state.cartItems.isFetching = true
+            },
+            deleteCartSuccess: (state, action) => {
+                state.cartItems.isFetching = false;
+                state.msg = action.payload
+            },
+            deleteCartFails: (state,action) => {
+                state.cartItems.isFetching = false;
+                state.cartItems.error = true;
+                state.msg = action.payload
             }
         }
     }
@@ -28,7 +54,13 @@ const cartSlide = createSlice(
 export const {
     getCartFailed,
     getCartsStart,
-    getCartsSuccess
+    getCartsSuccess,
+    addCartStart,
+    addCartFailed,
+    addCartSuccess,
+    deleteCartFails,
+    deleteCartStart,
+    deleteCartSuccess
 } = cartSlide.actions
 
 export default cartSlide.reducer

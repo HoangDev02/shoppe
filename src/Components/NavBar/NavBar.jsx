@@ -9,7 +9,11 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCartShopping,
+  faSearch
+} from "@fortawesome/free-solid-svg-icons";
 
 const NavBar = () => {
   const user = useSelector((state)=> state.auth.login.currentUser);
@@ -26,16 +30,26 @@ const NavBar = () => {
   return (
       <Navbar expand="lg" variant="light" bg="light">
         <Container>
-          <Navbar.Brand href="#home">Shoppe</Navbar.Brand>
+        <Navbar.Brand href="#home">
+            <img
+              src="https://classic.vn/wp-content/uploads/2022/04/logo-shopee.png"
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+              alt="React Bootstrap logo"
+            />
+            Shoppe
+          </Navbar.Brand>
+        
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="justify-content-center flex-grow-1 pe-3">
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/">Page</Nav.Link>
-              <Nav.Link href="/product">Product</Nav.Link>
+              <Nav.Link href="/product">Products</Nav.Link>
               <Nav.Link href="#pricing">blog</Nav.Link>
               <Nav.Link href="#pricing">Contact us</Nav.Link>
-              <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+              <NavDropdown title="Shop" id="collasible-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
                   Another action
@@ -48,8 +62,8 @@ const NavBar = () => {
               </NavDropdown>
             </Nav>
             <Nav>
-            <Link  to={`cart/${id}`}>cart</Link>
-
+              <FontAwesomeIcon icon={faSearch} className="searchNavBar"></FontAwesomeIcon>
+              <Link  to={`cart/${id}`}><FontAwesomeIcon icon={faCartShopping} className="icon icon-shoping"/></Link>
             {user? (
                 <Nav>
                 <Nav.Link >Hi, <span> {user.username}  </span> </Nav.Link>
@@ -57,8 +71,8 @@ const NavBar = () => {
                 </Nav>
               ) : (    
                 <Nav>
-                <Link to="/login" className="navbar-login"> Login </Link>
-                <Link to="/register" className="navbar-register"> Register</Link>
+                <Link to="/login" className="account navbar-login"> Login </Link>
+                <Link to="/register" className="account navbar-register"> Register</Link>
               </Nav>
             )}
             </Nav>

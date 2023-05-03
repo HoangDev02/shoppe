@@ -14,7 +14,7 @@ const HomeUser = (props) => {
     
 
     useEffect(() => {
-        getAllProduct(user?.accessToken, dispatch) 
+        getAllProduct( dispatch) 
     }, []);
     
 

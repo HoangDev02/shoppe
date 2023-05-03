@@ -1,21 +1,35 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { getCart } from '../../../redux/API/apiRequestcart';
-import {  useParams, useNavigate } from 'react-router-dom';
-import { createAxios } from "../../../redux/createInstance";
-import { logoutSuccess } from "../../../redux/authSlice";
+import { addCart, deleteCart, getCart } from '../../../redux/API/apiRequestcart';
+import {  useParams, useNavigate,useLocation } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import './cartUser.css'
 
 const CartUser = () => {
+  // window.scrollTo(0,0)
   const { userId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const user = useSelector((state)=> state.auth.login.currentUser);
-  const carts = useSelector((state) => state.carts.cart);
-  const accessToken = user?.accessToken;
-  
+  // const location = useLocation();
+  // const productId = new URLSearchParams(location.search).get('productId');
+  // const quantity = new URLSearchParams(location.search).get('quantity');
 
-  const { loading,error,allcart } = carts;
+  const user = useSelector((state)=> state.auth.login.currentUser);
+  const carts = useSelector((state) => state.carts.cartItems);
+  const accessToken = user?.accessToken;
+  const [quantity, setQuantity] = useState(1);
+  const {loading, cart}  = carts
+
+
+  const handleDeleteCart = (productId) => {
+
+    const newPorduct = {
+      productId : productId
+    }
+    deleteCart(newPorduct,dispatch,userId,)
+  }
 
   useEffect(() => {
     if (!user) {
@@ -24,29 +38,43 @@ const CartUser = () => {
     if(!carts) {
       navigate('/')
     }
-    if (user?.accessToken) {
+    if (user?.accessToken) {      
       getCart(accessToken, dispatch,userId); 
     }
+    // if(productId) {
+    //  addCart(user?.accessToken, dispatch, userId,productId,quantity,);
+    // }
+
   }, [userId]);
 
   return (
     <div>
       {
-        carts?.allCart.map((item) => {
-          return(
-            <div>
-              <p>{item.subtotal}</p>
-              {item.products.map((product) => {
+        // carts?.cart.map((item) => {
+        //   return(
+          <div className="container">
+              <div className="card pt-3 ">
+              <div className="cart-header">Total cart product</div>
+              {cart?.products.map((product) => {
                 return (
-                  <div key={product.id}>
-                    <h1>{product.name}</h1>
-                    {/* <img src={product.img}></img> */}
+                 <div className="card-body">
+                   <img  src={product.img}  className="img"/>
+                   <div key={product.id}>
+                    <div className="cardName">{product.name}</div>
+                    <div className="cardQuantity">
+                      {product.quantity}
+                    </div>
+                  <div className="CardPrice">${product.price}</div>
                   </div>
+                  <button onClick={() => handleDeleteCart(product._id)}>Delete</button>
+                 </div>
                 );
               })}
             </div>
-          )
-        })
+            <h3>Total:${cart?.subtotal}</h3>
+          </div>
+        //   )
+        // })
       }
     </div>
   );

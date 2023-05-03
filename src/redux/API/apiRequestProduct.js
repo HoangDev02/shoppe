@@ -3,24 +3,20 @@ import {getProductsFailed,getProductsSuccess, getProductsStart, getSingleProduct
 
 
 
-export const getAllProduct = async(accessToken, dispatch) => {
+export const getAllProduct = async(dispatch) => {
     dispatch(getProductsStart());
     try{
-        const res = await axios.get("/product/",{
-            headers: {token: ` ${accessToken}`}
-        })
+        const res = await axios.get("/product/",)
         dispatch(getProductsSuccess(res.data))
     }catch(err) {
         dispatch( getProductsFailed())
     }
 };
 
-export const getProduct = async(accessToken,dispatch, id) => {
+export const getProduct = async(dispatch, id) => {
     dispatch(getSingleProductStart());
     try{
-        const res = await axios.get(`/product/${id}`,{
-            headers: {token: ` ${accessToken}`}
-        })
+        const res = await axios.get(`/product/${id}`)
         dispatch(getSingleProductSuccess(res.data))
     }catch(err) {
         dispatch(getProductsFailed())
