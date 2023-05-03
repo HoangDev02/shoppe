@@ -40,15 +40,15 @@ app.use(session({
 app.use(methodOverride('_method'))
 app.use(morgan('combined'))
 
-app.engine('hbs', 
-  handlebars.engine({
-  extname: '.hbs',
-  helpers: {
-    // sum: (a, b) => a+ b
-  }
-}));
-  app.set('view engine', 'hbs');
-  app.set('views', path.join(__dirname, 'resource', 'views'));
+// app.engine('hbs', 
+//   handlebars.engine({
+//   extname: '.hbs',
+//   helpers: {
+//     // sum: (a, b) => a+ b
+//   }
+// }));
+//   app.set('view engine', 'hbs');
+//   app.set('views', path.join(__dirname, 'resource', 'views'));
 
 //router
 app.use('/user', userRouter)
