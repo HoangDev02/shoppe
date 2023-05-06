@@ -1,10 +1,8 @@
 const jwt = require('jsonwebtoken')
-const MyUtil = require('../../../utils/error')
-const { createError } =   require('../../../utils/error')
 const middleware = {
 
     verifyToken: (req,res,next) => {
-        const token =  req.cookies.refreshToken;
+        const token = req.headers.token;
         if(!token) {
             res.status(403).json("you not token")
         }

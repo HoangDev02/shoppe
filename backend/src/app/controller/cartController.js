@@ -61,7 +61,7 @@ const cartController = {
     },
     deleteCart: async(req,res,next) => {
         const userId = req.params.userId
-        let productId = req.body.ProductId
+        const productId = req.body.productId
         let cart = await cartModel.findOne({ userId: userId })
         if(!cart) {
             res.status(400).send('back')
