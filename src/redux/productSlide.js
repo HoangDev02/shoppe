@@ -10,7 +10,7 @@ const productSlide = createSlice(
                 error: false
             },
             detailProduct: {
-                product: null,
+                product: [],
                 isFetching: false,
                 error: false
             }
