@@ -5,7 +5,7 @@ const cartSlide = createSlice (
         name:"carts",
         initialState: {
             cartItems: {
-                cart: null,
+                allCart: [],
                 isFetching: false,
                 error: false
             },
@@ -17,7 +17,7 @@ const cartSlide = createSlice (
             },
             getCartsSuccess: (state, action) => {
                 state.cartItems.isFetching = false;
-                state.cartItems.cart = action.payload;
+                state.cartItems.allCart = action.payload;
                 state.cartItems.error = false;
             },
             getCartFailed: (state) => {
@@ -30,7 +30,7 @@ const cartSlide = createSlice (
             addCartSuccess: (state,action) => {
                 state.cartItems.isFetching = false;
                 state.cartItems.error = false;
-                state.cartItems.cart = action.payload
+                state.cartItems.allCart = action.payload
             },
             addCartFailed: (state) =>{
                 state.cartItems.isFetching = false;

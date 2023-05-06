@@ -61,7 +61,9 @@ export const addCart = async(product, dispatch, navigate, userId) => {
 export const deleteCart = async(product,dispatch,userId) => {
     dispatch(deleteCartStart())
     try {
-        const res = await axios.delete(`/cart/${userId}`,product)
+        const res = await axios.delete(`/cart/${userId}`,{
+            data: {productId: `${product}`}
+        })
         dispatch(deleteCartSuccess(res.data))
     } catch (error) {
         dispatch(deleteCartFails(error.response.data))

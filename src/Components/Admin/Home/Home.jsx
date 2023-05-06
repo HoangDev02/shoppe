@@ -39,7 +39,7 @@ const Home = () => {
     <main className="home-container">
       <div className="home-title">User List</div>
       <div className="home-role">
-        {`your user: ${user?.isadmin ? 'admin': 'user'}`}
+        {`your user: ${user?.isAdmin ? 'admin': 'user'}`}
       </div>
       <div className="home-userlist">
         {userList?.map((user) => {

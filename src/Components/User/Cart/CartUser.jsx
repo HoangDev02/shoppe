@@ -17,18 +17,19 @@ const CartUser = () => {
   // const quantity = new URLSearchParams(location.search).get('quantity');
 
   const user = useSelector((state)=> state.auth.login.currentUser);
-  const carts = useSelector((state) => state.carts.cartItems);
+  const carts = useSelector((state) => state.carts.cartItems?.allCart);
   const accessToken = user?.accessToken;
   const [quantity, setQuantity] = useState(1);
-  const {loading, cart}  = carts
-
+  const msg = useSelector((state) => state.carts?.msg)
 
   const handleDeleteCart = (productId) => {
+    // e.preventDefault();
 
-    const newPorduct = {
-      productId : productId
-    }
-    deleteCart(newPorduct,dispatch,userId,)
+    // const newProduct =  {
+    //   productId : productId
+    // }
+    // console.log(productId)
+    deleteCart(productId,dispatch,userId)
   }
 
   useEffect(() => {
@@ -50,14 +51,15 @@ const CartUser = () => {
   return (
     <div>
       {
-        // carts?.cart.map((item) => {
+        // cart?.map((item) => {
         //   return(
           <div className="container">
               <div className="card pt-3 ">
               <div className="cart-header">Total cart product</div>
-              {cart?.products.map((product) => {
+              {carts?.products.map((product) => {
                 return (
                  <div className="card-body">
+                  {/* <div></div> */}
                    <img  src={product.img}  className="img"/>
                    <div key={product.id}>
                     <div className="cardName">{product.name}</div>
@@ -66,16 +68,18 @@ const CartUser = () => {
                     </div>
                   <div className="CardPrice">${product.price}</div>
                   </div>
-                  <button onClick={() => handleDeleteCart(product._id)}>Delete</button>
+                  <button onClick={() => handleDeleteCart(product.productId)}>Delete</button>
                  </div>
                 );
               })}
             </div>
-            <h3>Total:${cart?.subtotal}</h3>
+            <h3>Total:${carts?.subtotal}</h3>
           </div>
-        //   )
-        // })
-      }
+          // )
+        }
+      {/* ) */}
+      {/* // } */}
+      {/* <div>{msg}</div> */}
     </div>
   );
 };

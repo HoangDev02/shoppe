@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const userSlide = createSlice(
     {
-        name: "user",
+        name: "users",
         initialState: {
             users: {
                 allUser: null,
