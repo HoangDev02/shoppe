@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {addCartFailed, addCartSuccess, getCartFailed,getCartsStart,getCartsSuccess, addCartStart, deleteCartStart, deleteCartSuccess, deleteCartFails} from '../cartSlide'
+import {addCartFailed, addCartSuccess, getCartFailed,getCartsStart,getCartsSuccess, addCartStart, deleteCartStart, deleteCartSuccess, deleteCartFails, updateCartQuantitySuccess, updateCartQuantityFailed,updateCartQuantityStart,updateProductQuantityInCart} from '../cartSlide'
 
 
 export const getCart = async(accessToken, dispatch,userId) => {
@@ -69,3 +69,13 @@ export const deleteCart = async(product,dispatch,userId) => {
         dispatch(deleteCartFails(error.response.data))
     }
 }
+export const updateCartQuantity = async (userId, productId, quantity, dispatch) => {
+    dispatch(updateCartQuantityStart());
+    try {
+      const res = await axios.put(`/cart/${userId}`, { productId, quantity });
+      dispatch(updateCartQuantitySuccess(res.data));
+    } catch (error) {
+      dispatch(updateCartQuantityFailed(error.response.data));
+      throw error; // Rethrow the error to be caught in the component
+    }
+  };

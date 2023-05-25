@@ -13,7 +13,8 @@ const productSlide = createSlice(
                 product: [],
                 isFetching: false,
                 error: false
-            }
+            },
+            msg: ""
         },
         reducers: {
             getProductsStart: (state) => {
@@ -39,6 +40,30 @@ const productSlide = createSlice(
                 state.detailProduct.isFetching = false;
                 state.detailProduct.error = true;
             },
+
+            updateProductStart: (state) => {
+                state.detailProduct.isFetching = true;
+            },
+            updateProductSuccess: (state, action) => {
+                state.detailProduct.isFetching = false;
+                state.detailProduct.product = action.payload
+            },
+            updateProductFail: (state) => {
+                state.detailProduct.error = false;
+                state.detailProduct.isFetching = false
+            },
+            deleteProductStart: (state) => {
+                state.products.isFetching = true
+            },
+            deleteProductSuccess: (state, action) => {
+                state.products.isFetching = false;
+                state.msg = action.payload
+            },
+            deleteProductFail: (state, action) => {
+                state.msg = action.payload;
+                state.products.isFetching = false;
+                state.products.error = true;
+            }
         }
     },
 )
@@ -48,7 +73,13 @@ export const {
     getProductsSuccess,
     getSingleProducFailed,
     getSingleProductStart,
-    getSingleProductSuccess
+    getSingleProductSuccess,
+    updateProductFail,
+    updateProductStart,
+    updateProductSuccess,
+    deleteProductFail,
+    deleteProductStart,
+    deleteProductSuccess
 } = productSlide.actions
 
 export default productSlide.reducer

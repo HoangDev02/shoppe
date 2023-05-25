@@ -1,74 +1,105 @@
-
-.account{
+.navbar {
+    background: linear-gradient(to right, #ee4d2d, #ff654f);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar:hover {
+    background: linear-gradient(to right, #ff654f, #ee4d2d);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .navbar-brand {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
     text-decoration: none;
-    color: black;
-}
-
-.navbar-container{
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-brand:hover {
+    color: #ffd9d5;
+  }
+  
+  .navbar-link {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    margin-right: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-link:hover {
+    color: #ffd9d5;
+    transform: scale(1.1);
+  }
+  
+  .navbar-right {
     display: flex;
-    background-color: #ee4d2d;
     align-items: center;
-}
-.header{
-    margin-left: 45px;
-    display: flex;
-}
-.header .logo {
-    display: flex;
+  }
+  
+  .navbar-icon {
     color: white;
-    margin-top: 10px;
-
-}
-.header .logo img {
-    margin-top: 5px;
-    justify-content: flex-start;
-    height: 50px;
-}
-
-.search {
-    margin-left: 20rem;
-}
-.search form {
-    justify-content: end;
-    text-align: center;
-    width: 30rem;
-}
-.navbar-right {
-    display: flex;
-    margin-left: 20rem;
-    padding: 20px;
-}
-.navbar-login {
-    padding: 5px;
-}
-.navbar-register{
-    padding: 5px;
-}
-.navbar-user{
+    margin-right: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-icon:hover {
+    color: #ffd9d5;
+  }
+  
+  .navbar-username {
     color: white;
-}
-.navbar-logout {
-    padding: 15px;
-    color:white;
-}
-
-.account:hover {
-    color: #ee4d2d;
-}
-
-.icon-shoping {
-    margin-top: 3px;
-    padding: 10px;
-    color: black;
-}
-.searchNavBar {
-    margin-top: 3px;
-    padding: 10px;
-    cursor: pointer;
-}
-.searchNavBar:hover {
-    color: #ee4d2d;
-}
-.icon-shoping:hover {
-    color: #ee4d2d;
-}
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-username:hover {
+    color: #ffd9d5;
+    text-decoration: underline;
+  }
+  
+  .navbar-logout {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-logout:hover {
+    color: #ffd9d5;
+    transform: rotate(10deg);
+  }
+  
+  @keyframes shake {
+    0% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(-5px);
+    }
+    40% {
+      transform: translateX(5px);
+    }
+    60% {
+      transform: translateX(-5px);
+    }
+    80% {
+      transform: translateX(5px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  .navbar-cart {
+    position: relative;
+    animation: shake 1s infinite;
+  }
+  

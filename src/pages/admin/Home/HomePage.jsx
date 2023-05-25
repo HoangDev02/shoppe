@@ -1,9 +1,9 @@
 import React from 'react';
-import Home from '../../../Components/Admin/Home/Home';
+import User from '../../../Components/Admin/user/User';
 const HomePage = () => {
     return (
         <div>
-            <Home/>
+            <User/>
         </div>
     );
 };

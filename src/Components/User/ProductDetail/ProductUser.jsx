@@ -43,7 +43,7 @@ const ProductUser = () => {
         <form onSubmit={handleAddCart}> 
           <div class="infor-Product">
             <h2>
-              <span>Thông tin sản phẩm</span>
+              <span>{productDetail?.description}</span>
             </h2>
           </div>
           <div className="card_detail">
@@ -51,15 +51,13 @@ const ProductUser = () => {
               <img src={productDetail?.img} alt="product image"/>
             </div>
             <div className="card_content text-center">
-              <div>
-                Mã giày:<input name="productId" value={productDetail?._id}  readOnly/>
-                Tên giày:<input name="name" value={productDetail?.name}   readOnly/>
-                Giá giày:<input name="price" value={productDetail?.price}  readOnly/>
-                số lượng mua:<input name="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
-                <p>description: {productDetail?.description}</p>
+              <div className='card_description'>
+                <div className='Card_name'>{productDetail?.name}</div>
+                <div className='card_price'>{productDetail.price}.000</div>
+                <input className='card_quantity' name="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
               </div>
-              <div class="d-grid gap-2 col-6 mx-auto">
-                <button type="submit" class="btn btn-outline-danger"  >
+              <div class="d-grid col-6 mx-auto btn_Buy_now">
+                <button type="submit" class="btn btn-outline-danger btn_Buy_now"  >
                   Buy Now
                 </button>
               </div>

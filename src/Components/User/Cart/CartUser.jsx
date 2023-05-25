@@ -1,85 +1,96 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { addCart, deleteCart, getCart } from '../../../redux/API/apiRequestcart';
-import {  useParams, useNavigate,useLocation } from 'react-router-dom';
+import { deleteCart, getCart, updateCartQuantity } from '../../../redux/API/apiRequestcart';
+import { useParams, useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import './cartUser.css'
+import './cartUser.scss';
 
 const CartUser = () => {
-  // window.scrollTo(0,0)
   const { userId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const location = useLocation();
-  // const productId = new URLSearchParams(location.search).get('productId');
-  // const quantity = new URLSearchParams(location.search).get('quantity');
-
-  const user = useSelector((state)=> state.auth.login.currentUser);
+  const user = useSelector((state) => state.auth.login.currentUser);
   const carts = useSelector((state) => state.carts.cartItems?.allCart);
   const accessToken = user?.accessToken;
-  const [quantity, setQuantity] = useState(1);
-  const msg = useSelector((state) => state.carts?.msg)
+  const msg = useSelector((state) => state.carts?.msg);
 
   const handleDeleteCart = (productId) => {
-    // e.preventDefault();
+    deleteCart(productId, dispatch, userId)
+      .then(() => {
+        getCart(accessToken, dispatch, userId);
+      });
+  };
 
-    // const newProduct =  {
-    //   productId : productId
-    // }
-    // console.log(productId)
-    deleteCart(productId,dispatch,userId)
-  }
+  const handleUpdateQuantity = (productId, newQuantity) => {
+    updateCartQuantity(userId, productId, newQuantity, dispatch)
+      .then(() => {
+        getCart(accessToken, dispatch, userId);
+      })
+      .catch((error) => {
+        // Handle the error here, such as displaying an error message
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     if (!user) {
       navigate('/login');
     }
-    if(!carts) {
-      navigate('/')
+    if (!carts) {
+      navigate('/');
     }
-    if (user?.accessToken) {      
-      getCart(accessToken, dispatch,userId); 
+    if (user?.accessToken) {
+      getCart(accessToken, dispatch, userId);
     }
-    // if(productId) {
-    //  addCart(user?.accessToken, dispatch, userId,productId,quantity,);
-    // }
-
   }, [userId]);
+
+  const calculateSubtotal = (products) => {
+    let subtotal = 0;
+    if (products) {
+      for (const product of products) {
+        subtotal += product.price * product.quantity;
+      }
+    }
+    return subtotal;
+  };
 
   return (
     <div>
       {
-        // cart?.map((item) => {
-        //   return(
-          <div className="container">
-              <div className="card pt-3 ">
-              <div className="cart-header">Total cart product</div>
-              {carts?.products.map((product) => {
-                return (
-                 <div className="card-body">
-                  {/* <div></div> */}
-                   <img  src={product.img}  className="img"/>
-                   <div key={product.id}>
-                    <div className="cardName">{product.name}</div>
-                    <div className="cardQuantity">
-                      {product.quantity}
-                    </div>
-                  <div className="CardPrice">${product.price}</div>
-                  </div>
-                  <button onClick={() => handleDeleteCart(product.productId)}>Delete</button>
+       <div className="cart-wrapper">
+       <div className="cart-container">
+         <h2 className="cart-title">Giỏ hàng</h2>
+         <div className="cart-product-list">
+           {carts?.products && carts.products.map((product) => (
+             <div className="cart-product" key={product.productId}>
+               <div className="cart-product-image">
+                 <img src={product.img} alt={product.name} />
+               </div>
+               <div className="cart-product-details">
+                 <h3 className="cart-product-name">{product.name}</h3>
+                 <div className="cart-product-quantity">
+                   <button onClick={() => handleUpdateQuantity(product.productId, product.quantity - 1)}>-</button>
+                   <span>{product.quantity}</span>
+                   <button onClick={() => handleUpdateQuantity(product.productId, product.quantity + 1)}>+</button>
                  </div>
-                );
-              })}
-            </div>
-            <h3>Total:${carts?.subtotal}</h3>
-          </div>
-          // )
-        }
-      {/* ) */}
-      {/* // } */}
-      {/* <div>{msg}</div> */}
+                 <div className="cart-product-price">${product.price}</div>
+                 <button className="cart-product-delete" onClick={() => handleDeleteCart(product.productId)}>
+                   Xóa
+                 </button>
+               </div>
+             </div>
+           ))}
+         </div>
+         <div className="cart-total">
+           <span className="cart-total-label">Tổng tiền:</span>
+           <span className="cart-total-amount">${calculateSubtotal(carts?.products)}</span>
+         </div>
+         <button className="cart-checkout-button">Thanh toán</button>
+       </div>
+     </div>
+      }
     </div>
   );
 };

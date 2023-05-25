@@ -47,7 +47,26 @@ const cartSlide = createSlice (
                 state.cartItems.isFetching = false;
                 state.cartItems.error = true;
                 state.msg = action.payload
-            }
+            },
+            updateCartQuantityStart: (state) => {
+                state.cartItems.isFetching = true;
+              },
+              updateCartQuantitySuccess: (state, action) => {
+                state.cartItems.isFetching = false;
+                state.cartItems.allCart = action.payload;
+                state.cartItems.error = false;
+              },
+              updateProductQuantityInCart: (state, action) => {
+                const { productId, quantity } = action.payload;
+                const cartItem = state.cartItems.allCart.find(item => item.productId === productId);
+                if (cartItem) {
+                  cartItem.quantity = quantity;
+                }
+              },
+              updateCartQuantityFailed: (state) => {
+                state.cartItems.isFetching = false;
+                state.cartItems.error = true;
+              },
         }
     }
 )
@@ -60,7 +79,11 @@ export const {
     addCartSuccess,
     deleteCartFails,
     deleteCartStart,
-    deleteCartSuccess
+    deleteCartSuccess,
+    updateCartQuantityFailed,
+    updateCartQuantityStart,
+    updateCartQuantitySuccess,
+    updateProductQuantityInCart
 } = cartSlide.actions
 
 export default cartSlide.reducer
