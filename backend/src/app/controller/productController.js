@@ -1,6 +1,5 @@
 
 const productModel = require('../models/product.model')
-const {mongooseToObject} = require('../../../utils/mongoose')
 
 const productController = {
     createProduct: async(req,res,next) => {
@@ -19,16 +18,26 @@ const productController = {
     //     }))
     //     .catch(next)
     // },
+
+    //get
+    editProduct: async(req,res,next) => {
+        try {
+            const editProduct = await productModel.findById(req.params.id);
+            res.status(200).json(editProduct)
+        }catch(err) {
+            next(err)
+        }
+    },
     //put
     updateProduct: async(req,res,next) => {
-        product.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true})
+        productModel.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true})
         .then(() => res.json('"update product success'))
         .catch(next)
     },
     //delete
     deleteProduct: async(req,res,next) => {
-        product.findByIdAndDelete(req.params.id)
-        .then(() =>res.json('delete product'))
+        productModel.findByIdAndDelete(req.params.id)
+        .then(() =>res.json('delete product success'))
         .catch(next)
     },
     getProduct: async(req,res,next) => {

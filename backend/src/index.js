@@ -17,7 +17,6 @@ const connect = require("../src/app/connect/connect")
 const userRouter = require('./router/userRouter')
 const categoriesRouter = require('./router/categoriesRouter')
 const porductRouter = require('./router/productRouter')
-const homeRouter = require('./router/homeRouter')
 const cart = require('./router/cartRouter')
 const port = 8080;
 dotenv.config()

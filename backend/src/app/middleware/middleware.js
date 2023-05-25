@@ -1,26 +1,23 @@
 const jwt = require('jsonwebtoken')
 const middleware = {
-
     verifyToken: (req,res,next) => {
         const token = req.headers.token;
-        if(!token) {
-            res.status(403).json("you not token")
-        }
-        jwt.verify(token,process.env.JWT_ACCESS_KEY, (err, user)=> {
-            if(err) {
-                res.status(401).json("Token does exist")
-            }
-
-            req.user = user;
-            next()  
-        }) 
+        if(token) {
+            jwt.verify(token, process.env.JWT_ACCESS_KEY, (err, user)=> {
+                if(err) {
+                    return  res.status(403).json("Token does exist")
+                }
+                req.user = user;
+                next()  
+            }) 
+        }   
     },
     verifyUser: (req,res,next)=> {
         middleware.verifyToken(req,res, () => {
             if(req.user.id === req.params.id  ||  req.user.isAdmin){
                 next()
             }else {
-              res.status(403).json("you do not have access")
+                return  res.status(403).json("you do not have access")
             }
         })
     },
@@ -29,7 +26,7 @@ const middleware = {
             if(req.user.isAdmin){
                 next()
             }else {
-                res.status(403).json("you do not have access")
+                return  res.status(403).json("you do not have access")
             }
         })
     },
